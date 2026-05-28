@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare Comps | WhatIMade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f1117;--card:#161b27;--raised:#1e2538;--border:#2a3347;--text:#e2e8f0;--muted:#8892a4;--accent:#3b82f6}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--card)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* LOGIN */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-card{width:100%;max-width:420px;padding:0 16px}
+.logo-box{text-align:center;margin-bottom:40px}
+.logo-icon{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px}
+.logo-icon svg{width:28px;height:28px;color:#fff}
+.login-h1{font-size:1.5rem;font-weight:700;color:#fff}
+.login-sub{font-size:.875rem;color:var(--muted);margin-top:4px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px}
+.card h2{font-size:1.125rem;font-weight:600;color:#fff;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:.75rem;font-weight:500;color:var(--muted);margin-bottom:6px}
+.form-group input{width:100%;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:.875rem;color:#fff;outline:none;transition:border-color .15s}
+.form-group input:focus{border-color:var(--accent)}
+.btn-primary{width:100%;padding:11px;border-radius:8px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);border:none;color:#fff;font-size:.875rem;font-weight:600;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.9}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.error-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px 12px;font-size:.875rem;color:#f87171;margin-bottom:16px;display:none}
+.login-footer{text-align:center;font-size:.75rem;color:var(--muted);margin-top:24px}
+
+/* APP */
+#app-screen{display:none;min-height:100vh}
+header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.header-brand{display:flex;align-items:center;gap:12px}
+.header-logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center}
+.header-logo svg{width:16px;height:16px;color:#fff}
+.header-title{font-size:.875rem;font-weight:700;color:#fff}
+.header-sub{font-size:.75rem;color:var(--muted);margin-top:1px}
+.header-right{display:flex;align-items:center;gap:16px}
+.header-user{font-size:.875rem;color:var(--muted)}
+.header-user span{color:#fff;font-weight:500}
+.btn-logout{font-size:.75rem;padding:6px 12px;border-radius:8px;background:var(--raised);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:opacity .15s}
+.btn-logout:hover{opacity:.8}
+main{max-width:1600px;margin:0 auto;padding:24px}
+.page-title{font-size:1.5rem;font-weight:700;color:#fff}
+.page-sub{font-size:.875rem;color:var(--muted);margin-top:4px}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat-label{font-size:.75rem;font-weight:500;color:var(--muted);margin-bottom:4px}
+.stat-value{font-size:1.25rem;font-weight:700;color:#fff}
+.stat-sub{font-size:.75rem;color:var(--muted);margin-top:2px}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:12px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{padding:6px 14px;border-radius:8px;font-size:.75rem;font-weight:500;cursor:pointer;transition:all .15s;background:var(--raised);border:1px solid var(--border);color:var(--muted)}
+.tab.active{background:#1d4ed8;border-color:#3b82f6;color:#fff}
+.search-wrap{margin-left:auto;position:relative}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--muted);pointer-events:none}
+.search-input{padding:7px 12px 7px 32px;border-radius:8px;background:var(--raised);border:1px solid var(--border);color:#fff;font-size:.75rem;outline:none;width:200px}
+.legend{display:flex;gap:16px;margin-bottom:12px;font-size:.75rem;color:var(--muted);align-items:center;flex-wrap:wrap}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.table-wrap{border-radius:12px;border:1px solid var(--border);overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{position:sticky;top:0;z-index:10;background:#0d1020;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 12px;white-space:nowrap;border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+thead th:hover{color:var(--text)}
+thead th.sorted{color:var(--accent)}
+tbody td{padding:10px 12px;font-size:.82rem;border-bottom:1px solid #1a2030;white-space:nowrap;vertical-align:middle}
+tbody tr.data-row:hover td{background:rgba(59,130,246,.04);cursor:pointer}
+tbody tr.data-row.open td{background:rgba(59,130,246,.06)}
+tbody tr.impl-row td{background:#0d1422 !important;border-bottom:2px solid var(--accent) !important;cursor:default}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 8px;font-size:.72rem;font-weight:500}
+.badge-premium{background:rgba(16,185,129,.15);color:#10b981}
+.badge-fair{background:rgba(234,179,8,.15);color:#eab308}
+.badge-discount{background:rgba(239,68,68,.15);color:#ef4444}
+.badge-blue{background:rgba(59,130,246,.12);color:#60a5fa}
+.badge-vert{background:var(--raised);color:var(--muted);font-size:.7rem;padding:2px 8px}
+.impl-inner{display:flex;gap:24px;padding:16px}
+.impl-left{flex-shrink:0;min-width:180px}
+.impl-divider{width:1px;background:var(--border);flex-shrink:0}
+.impl-right{flex:1}
+.impl-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.impl-meta-item .lbl{font-size:.7rem;color:var(--muted)}
+.impl-meta-item .val{font-size:.8rem;font-weight:600;color:#fff}
+.impl-title{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.impl-title svg{width:16px;height:16px;color:#60a5fa}
+.impl-title h3{font-size:.875rem;font-weight:600;color:#fff}
+.impl-text{font-size:.82rem;line-height:1.65;color:#c9d1e0;max-width:80ch}
+.footer-note{margin-top:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;gap:12px}
+.footer-note svg{width:16px;height:16px;color:#60a5fa;flex-shrink:0;margin-top:2px}
+.footer-note p{font-size:.75rem;line-height:1.6;color:var(--muted)}
+.footer-note strong{color:#fff}
+.sep-col{width:1px;padding:0;background:var(--border)}
+@media(max-width:768px){.stat-grid{grid-template-columns:1fr 1fr}.impl-inner{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="logo-box">
+      <div class="logo-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div class="login-h1">Healthcare Comps</div>
+      <div class="login-sub">Trading multiples &amp; valuation analysis</div>
+    </div>
+    <div class="card">
+      <h2>Sign in</h2>
+      <div id="login-error" class="error-box"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" id="email" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-primary" id="login-btn">Sign in</button>
+      </form>
+    </div>
+    <div class="login-footer">Healthcare Comparables · WhatIMade</div>
+  </div>
+</div>
+
+<!-- APP SCREEN -->
+<div id="app-screen">
+  <header>
+    <div class="header-brand">
+      <div class="header-logo">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      </div>
+      <div>
+        <div class="header-title">Healthcare Comps</div>
+        <div class="header-sub">NTM Consensus · May 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-user">Welcome, <span id="user-name"></span></div>
+      <button class="btn-logout" onclick="logout()">Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-title">Healthcare Listed Companies</div>
+    <div class="page-sub">Trading multiples, margin profiles, and growth assumptions — understanding the premium or discount vs. peers. Click any row to expand implications.</div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">Companies</div><div class="stat-value" id="stat-count">—</div><div class="stat-sub" id="stat-count-sub">of 26 total</div></div>
+      <div class="stat-card"><div class="stat-label">Trading at Premium</div><div class="stat-value" id="stat-premium">—</div><div class="stat-sub">vs sector median</div></div>
+      <div class="stat-card"><div class="stat-label">Trading at Discount</div><div class="stat-value" id="stat-discount">—</div><div class="stat-sub">vs sector median</div></div>
+      <div class="stat-card"><div class="stat-label">Avg Rev Growth (NTM)</div><div class="stat-value" id="stat-growth">—</div><div class="stat-sub" id="stat-margin-sub">Avg EBITDA margin: —</div></div>
+    </div>
+
+    <div class="controls">
+      <div class="tabs" id="tabs"></div>
+      <div class="search-wrap">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input class="search-input" id="search" type="text" placeholder="Search ticker or name…" oninput="renderTable()">
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#10b981"></span>Premium vs sector</span>
+      <span><span class="legend-dot" style="background:#eab308"></span>Fair value</span>
+      <span><span class="legend-dot" style="background:#ef4444"></span>Discount vs sector</span>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table id="main-table">
+          <thead>
+            <tr>
+              <th onclick="setSort('ticker')">Ticker <span class="sort-icon" data-col="ticker">↕</span></th>
+              <th style="min-width:180px">Company</th>
+              <th>Vertical</th>
+              <th onclick="setSort('marketCapB')">Mkt Cap <span class="sort-icon" data-col="marketCapB">↕</span></th>
+              <th class="sep-col"></th>
+              <th onclick="setSort('peNTM')" title="Price / NTM EPS">P/E <span class="sort-icon" data-col="peNTM">↕</span></th>
+              <th onclick="setSort('evEbitdaNTM')" title="EV / NTM EBITDA">EV/EBITDA <span class="sort-icon" data-col="evEbitdaNTM">↕</span></th>
+              <th onclick="setSort('evRevNTM')" title="EV / NTM Revenue">EV/Rev <span class="sort-icon" data-col="evRevNTM">↕</span></th>
+              <th onclick="setSort('pfcfNTM')" title="Price / NTM FCF">P/FCF <span class="sort-icon" data-col="pfcfNTM">↕</span></th>
+              <th class="sep-col"></th>
+              <th onclick="setSort('grossMargin')" title="Gross margin %">Gross % <span class="sort-icon" data-col="grossMargin">↕</span></th>
+              <th onclick="setSort('ebitdaMargin')" title="EBITDA margin %">EBITDA % <span class="sort-icon" data-col="ebitdaMargin">↕</span></th>
+              <th onclick="setSort('netMargin')" title="Net margin %">Net % <span class="sort-icon" data-col="netMargin">↕</span></th>
+              <th onclick="setSort('fcfMargin')" title="FCF margin %">FCF % <span class="sort-icon" data-col="fcfMargin">↕</span></th>
+              <th class="sep-col"></th>
+              <th onclick="setSort('revGrowth')" title="Revenue growth YoY">Rev g. YoY <span class="sort-icon" data-col="revGrowth">↕</span></th>
+              <th onclick="setSort('ebitdaGrowth')" title="EBITDA growth YoY">EBITDA g. <span class="sort-icon" data-col="ebitdaGrowth">↕</span></th>
+              <th onclick="setSort('rev2yrCagr')" title="2-year revenue CAGR">2yr CAGR <span class="sort-icon" data-col="rev2yrCagr">↕</span></th>
+              <th onclick="setSort('grossMarginExpBps')" title="Gross margin expansion bps (2yr)">GM Exp. <span class="sort-icon" data-col="grossMarginExpBps">↕</span></th>
+              <th class="sep-col"></th>
+              <th onclick="setSort('premDiscPct')" title="Premium/discount vs sector median EV/EBITDA">vs Peers <span class="sort-icon" data-col="premDiscPct">↕</span></th>
+              <th>Rating</th>
+              <th>Key Catalyst</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <p><strong>Data note:</strong> All multiples are NTM (next-twelve-months) consensus estimates. Margins reflect LTM or NTM consensus as appropriate. Revenue growth, EBITDA growth and margin expansion are NTM YoY vs prior period. The "vs Peers" column shows the approximate premium/discount of a company's EV/EBITDA multiple relative to the sector median. Colour coding on EBITDA margin cells compares each company to its vertical median. Figures are for analytical reference and should not be construed as investment advice. Sources: Bloomberg, FactSet, company filings &amp; guidance. Updated May 2026.</p>
+    </div>
+  </main>
+</div>
+
+<script>
+// ── AUTH ─────────────────────────────────────────────────────────────────
+// SHA-256 hashes of passwords (computed offline)
+const USERS = [
+  { email:'marko.boesch@gmx.ch',    name:'Marko', hash:'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' },
+  { email:'t.k.wigand@gmail.com',   name:'Tobi',  hash:'ac0b119e9fd831f76d4449592a6ff3903170fa75f0dc3f4d9fc733501b53708d' },
+];
+
+async function sha256(str){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+document.getElementById('login-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=document.getElementById('login-btn');
+  const errBox=document.getElementById('login-error');
+  btn.disabled=true; btn.textContent='Signing in…'; errBox.style.display='none';
+  const email=document.getElementById('email').value.trim().toLowerCase();
+  const password=document.getElementById('password').value;
+  const hash=await sha256(password);
+  const user=USERS.find(u=>u.email===email&&u.hash===hash);
+  if(!user){
+    errBox.textContent='Invalid email or password'; errBox.style.display='block';
+    btn.disabled=false; btn.textContent='Sign in'; return;
+  }
+  sessionStorage.setItem('hc_user',JSON.stringify({email:user.email,name:user.name}));
+  showApp(user.name);
+});
+
+function logout(){
+  sessionStorage.removeItem('hc_user');
+  document.getElementById('app-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+}
+
+function showApp(name){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-screen').style.display='block';
+  document.getElementById('user-name').textContent=name;
+  renderTabs(); renderTable();
+}
+
+// Check session on load
+(function(){
+  const s=sessionStorage.getItem('hc_user');
+  if(s){const u=JSON.parse(s);showApp(u.name);}
+})();
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+const VERTICALS=['Large Cap Pharma','Biotech','Medical Devices','Life Sciences Tools','Managed Care','CRO / Services'];
+
+const DATA=[
+  // Large Cap Pharma
+  {ticker:'LLY',name:'Eli Lilly',vertical:'Large Cap Pharma',marketCapB:760,peNTM:46,evEbitdaNTM:36,evRevNTM:15.2,pfcfNTM:52,grossMargin:80,ebitdaMargin:42,netMargin:30,fcfMargin:28,revGrowth:33,ebitdaGrowth:48,rev2yrCagr:26,grossMarginExpBps:200,tier:'premium',premDiscPct:195,catalyst:'GLP-1 supercycle',implications:"LLY commands the largest premium in pharma because Mounjaro (T2D) and Zepbound (obesity) are redefining a multi-hundred-billion-dollar TAM. Investors are pricing in a decade-long growth runway as GLP-1 penetration in obesity (<5% today) converges toward 20%+. Crucially, Lilly guided to 2024 revenue of ~$42–43B — well above prior consensus — and management has consistently raised the bar, which forces multiple expansion as analysts ratchet up long-term estimates. New capacity in Lebanon, Indiana and Limerick, Ireland removes the key bear case (supply constraint). Pipeline optionality in NASH, sleep apnea, CKD, and Alzheimer's (donanemab) provides further upside."},
+  {ticker:'ABBV',name:'AbbVie',vertical:'Large Cap Pharma',marketCapB:310,peNTM:16,evEbitdaNTM:13,evRevNTM:5.6,pfcfNTM:18,grossMargin:72,ebitdaMargin:40,netMargin:23,fcfMargin:29,revGrowth:4,ebitdaGrowth:6,rev2yrCagr:7,grossMarginExpBps:100,tier:'fair',premDiscPct:-5,catalyst:'Humira LOE absorbed',implications:"AbbVie trades near fair value despite best-in-class FCF generation, largely because the market spent 2022–2023 discounting deep Humira biosimilar erosion. With that revenue cliff now substantially absorbed, and Skyrizi and Rinvoq each approaching $10B+ annualised run-rates ahead of schedule, the original LOE bear case has collapsed. The stock deserves a gradual re-rating toward peers as investors gain confidence the replacement portfolio sustains 5–7% long-term revenue growth. The Cerevel (neuroscience) and ImmunoGen (oncology) acquisitions add pipeline depth not yet fully credited by the market."},
+  {ticker:'JNJ',name:'Johnson & Johnson',vertical:'Large Cap Pharma',marketCapB:380,peNTM:14,evEbitdaNTM:12,evRevNTM:3.9,pfcfNTM:17,grossMargin:68,ebitdaMargin:34,netMargin:19,fcfMargin:22,revGrowth:6,ebitdaGrowth:8,rev2yrCagr:5,grossMarginExpBps:50,tier:'fair',premDiscPct:-8,catalyst:'Post-Kenvue pure-play',implications:"J&J now trades as a pure Innovative Medicine + MedTech play post-Kenvue spin-off, improving the quality-of-earnings narrative. The multiple reflects a balanced growth profile: oncology (Darzalex, Carvykti) and immunology (Tremfya) are strong, but investors are cautious about talc litigation liability and the looming Stelara LOE (~$11B franchise). MedTech is growing in cardiovascular (Shockwave) and orthopedics. The stock would likely re-rate once the Stelara cliff is fully in consensus and talc settlement provides legal clarity."},
+  {ticker:'MRK',name:'Merck',vertical:'Large Cap Pharma',marketCapB:260,peNTM:13,evEbitdaNTM:11,evRevNTM:4.2,pfcfNTM:15,grossMargin:77,ebitdaMargin:38,netMargin:26,fcfMargin:24,revGrowth:7,ebitdaGrowth:10,rev2yrCagr:5,grossMarginExpBps:80,tier:'fair',premDiscPct:-12,catalyst:'Keytruda dominance',implications:"Merck's multiple is capped by the looming 2028 Keytruda patent cliff — the drug accounts for >40% of revenues with no obvious single replacement in the pipeline. However, management has been active in BD (Prometheus for IBD, Daiichi MK-1654) and the pipeline includes promising ADC and pulmonary arterial hypertension assets. As long as Keytruda's label continues expanding into adjuvant and new tumour types, near-term consensus estimates will continue being beaten. The mRNA personalised cancer vaccine with Moderna (mKEYNOTE) is a potential multi-billion-dollar optionality not yet in consensus."},
+  {ticker:'AZN',name:'AstraZeneca',vertical:'Large Cap Pharma',marketCapB:250,peNTM:21,evEbitdaNTM:17,evRevNTM:4.6,pfcfNTM:24,grossMargin:82,ebitdaMargin:34,netMargin:19,fcfMargin:18,revGrowth:18,ebitdaGrowth:23,rev2yrCagr:16,grossMarginExpBps:150,tier:'premium',premDiscPct:38,catalyst:'Oncology pipeline depth',implications:"AstraZeneca is the fastest-growing large-cap pharma globally and is justified in trading at a premium. Tagrisso (NSCLC), Imfinzi (lung + biliary), and Enhertu (ADC co-developed with Daiichi Sankyo) create a best-in-class oncology franchise. Farxiga's cardiovascular/CKD label expansion is growing the addressable patient population well beyond T2D. AZN has delivered multi-year revenue upgrades and guided to >$80B in revenue by 2030 — a target that now looks achievable. Strong execution in emerging markets (China, Brazil) further differentiates the growth algorithm vs peers."},
+  {ticker:'PFE',name:'Pfizer',vertical:'Large Cap Pharma',marketCapB:145,peNTM:10,evEbitdaNTM:8,evRevNTM:2.4,pfcfNTM:11,grossMargin:72,ebitdaMargin:28,netMargin:12,fcfMargin:14,revGrowth:-5,ebitdaGrowth:-8,rev2yrCagr:-8,grossMarginExpBps:-50,tier:'discount',premDiscPct:-35,catalyst:'Post-COVID reset',implications:"Pfizer trades at a deep discount because Paxlovid and COVID vaccine revenues have normalised dramatically from their 2022 peak, revealing an ex-COVID core business growing only in low-single digits. The market is also sceptical about the $43B Seagen oncology acquisition's ability to fill the revenue gap quickly. Capital allocation and dividend sustainability are concerns. The stock would re-rate if the oncology pipeline (Padcev, Lorbrena, Elranatamab) achieves above-consensus milestones or if Seagen's ADC franchise accelerates. Deep-value investors argue the current multiple undervalues the durable base business."},
+  {ticker:'BMY',name:'Bristol-Myers Squibb',vertical:'Large Cap Pharma',marketCapB:130,peNTM:7,evEbitdaNTM:6,evRevNTM:2.0,pfcfNTM:9,grossMargin:70,ebitdaMargin:38,netMargin:21,fcfMargin:26,revGrowth:-3,ebitdaGrowth:-5,rev2yrCagr:-4,grossMarginExpBps:-80,tier:'discount',premDiscPct:-52,catalyst:'LOE re-rating potential',implications:"BMY is arguably the most consensus 'deep-value' trade in large-cap pharma. Multiple blockbusters — Revlimid, Opdivo, Eliquis — face generic/biosimilar competition 2025–2028 and the market has aggressively front-run that revenue erosion. However, the new product portfolio (Krazati, Breyanzi, Camzyos, Augtyro) is growing faster than feared, and the late-stage pipeline (milvexian, KarXT in neuropsychiatry) could provide meaningful upside. The stock offers >10% free cash flow yield and management is committed to buybacks. A single large pipeline win could trigger a significant de-risking re-rate."},
+  {ticker:'NVS',name:'Novartis',vertical:'Large Cap Pharma',marketCapB:210,peNTM:14,evEbitdaNTM:12,evRevNTM:4.0,pfcfNTM:16,grossMargin:68,ebitdaMargin:34,netMargin:21,fcfMargin:22,revGrowth:11,ebitdaGrowth:14,rev2yrCagr:9,grossMarginExpBps:120,tier:'fair',premDiscPct:-5,catalyst:'Post-Sandoz focus',implications:"Novartis trades close to fair value after the Sandoz generics spin-off focused the portfolio on innovative medicines. Kisqali's expanding breast cancer label (HR+/HER2- adjuvant data) and Cosentyx's new indications are near-term revenue drivers. Iptacopan in complement-mediated diseases and the radioligand therapy platform (Lutathera) represent quality pipeline optionality. The balance sheet is clean and management is returning capital via buybacks. The stock would merit a meaningful premium re-rating if the radioligand therapy platform proves as broad as bulls expect."},
+  {ticker:'ROG',name:'Roche',vertical:'Large Cap Pharma',marketCapB:195,peNTM:12,evEbitdaNTM:10,evRevNTM:3.1,pfcfNTM:14,grossMargin:70,ebitdaMargin:34,netMargin:21,fcfMargin:19,revGrowth:2,ebitdaGrowth:4,rev2yrCagr:3,grossMarginExpBps:30,tier:'discount',premDiscPct:-19,catalyst:'Biosimilar trough priced in',implications:"Roche's discount reflects ongoing biosimilar erosion on its legacy biologic trio — Herceptin, Avastin, and Rituxan — which collectively lost ~CHF 10B in revenues 2019–2023. Growth drivers (Ocrevus in MS, Hemlibra in haemophilia, Vabysmo in ophthalmology) are performing well but have not yet fully offset the headwinds. The discount should compress as legacy erosion moderates and the new portfolio runs at a higher base. Personalised healthcare initiatives in oncology could unlock further value if companion diagnostics achieve broader adoption."},
+  {ticker:'GSK',name:'GSK',vertical:'Large Cap Pharma',marketCapB:68,peNTM:10,evEbitdaNTM:8,evRevNTM:2.5,pfcfNTM:12,grossMargin:72,ebitdaMargin:30,netMargin:16,fcfMargin:18,revGrowth:5,ebitdaGrowth:7,rev2yrCagr:6,grossMarginExpBps:60,tier:'discount',premDiscPct:-35,catalyst:'Zantac overhang clearing',implications:"GSK's depressed multiple reflects two overlapping overhangs: (1) Zantac (ranitidine/NDMA) litigation liability that has generated adverse headlines, and (2) a historical perception of R&D underperformance. In reality the commercial business has improved — the Arexvy RSV vaccine launch was a significant milestone, and the HIV portfolio (ViiV, dolutegravir-based regimens) generates highly durable, high-margin cash flows. Specialty medicine in respiratory (Nucala, Trelegy) and oncology is growing. If the Zantac liability risk is resolved through settlements or favourable rulings, GSK could see a meaningful valuation re-rating."},
+  // Biotech
+  {ticker:'VRTX',name:'Vertex Pharmaceuticals',vertical:'Biotech',marketCapB:128,peNTM:29,evEbitdaNTM:23,evRevNTM:8.5,pfcfNTM:32,grossMargin:87,ebitdaMargin:52,netMargin:39,fcfMargin:38,revGrowth:14,ebitdaGrowth:18,rev2yrCagr:13,grossMarginExpBps:100,tier:'premium',premDiscPct:65,catalyst:'CF monopoly + new indications',implications:"Vertex justifies its biotech premium on three pillars. First, Trikafta's near-monopoly in cystic fibrosis (treating ~90% of the eligible CF population) generates extraordinarily durable, high-margin revenue — no competitive threat until at least the mid-2030s. Second, Vertex recently reached a major profitability inflection: having invested heavily in R&D for years, operating leverage is now materialising. Third, the pipeline is genuinely diversified: VX-548 (non-opioid acute pain — recently approved), inaxaplin in APOL1-mediated kidney disease, and the CRISPR-based gene editing programme in blood disorders each represent multi-billion-dollar opportunities."},
+  {ticker:'REGN',name:'Regeneron',vertical:'Biotech',marketCapB:90,peNTM:21,evEbitdaNTM:16,evRevNTM:6.2,pfcfNTM:24,grossMargin:88,ebitdaMargin:48,netMargin:34,fcfMargin:35,revGrowth:9,ebitdaGrowth:12,rev2yrCagr:10,grossMarginExpBps:80,tier:'premium',premDiscPct:15,catalyst:'Dupixent expansion',implications:"Regeneron trades at a modest premium, underpinned by Dupixent's exceptional label expansion story. Dupixent now covers atopic dermatitis, asthma, COPD, nasal polyps, eosinophilic oesophagitis, and prurigo nodularis — one of the most broadly approved biologics in history. Revenue has grown from ~$1B in 2018 to a run-rate approaching $15B, and there are still major indications pending. Dupixent patent protection runs to ~2031 providing strong earnings visibility. The balance sheet is fortress-grade (>$15B cash) enabling opportunistic BD. The pipeline beyond Dupixent (Pozelimab, Linvoseltamab) adds upside optionality not yet in consensus."},
+  {ticker:'AMGN',name:'Amgen',vertical:'Biotech',marketCapB:155,peNTM:14,evEbitdaNTM:12,evRevNTM:4.2,pfcfNTM:15,grossMargin:74,ebitdaMargin:41,netMargin:23,fcfMargin:22,revGrowth:6,ebitdaGrowth:8,rev2yrCagr:5,grossMarginExpBps:60,tier:'fair',premDiscPct:-15,catalyst:'MariTide GLP-1 optionality',implications:"Amgen trades at a moderate discount to large biotech peers, reflecting a maturing legacy product base (Enbrel, Neulasta in biosimilar decline) partially offset by Repatha, Evenity, and newer launches. However, MariTide — Amgen's novel GLP-1/GIP receptor antagonist — represents potentially the most significant binary in biopharma over the next 18 months. Phase 2 data showed superior weight loss vs tirzepatide in some dosing groups. If Phase 3 confirms, the market will rapidly re-rate Amgen into the GLP-1 supercycle premium tier. The Horizon Therapeutics acquisition adds a rare-disease revenue base that provides near-term stability."},
+  {ticker:'GILD',name:'Gilead Sciences',vertical:'Biotech',marketCapB:92,peNTM:11,evEbitdaNTM:9,evRevNTM:3.2,pfcfNTM:13,grossMargin:82,ebitdaMargin:41,netMargin:20,fcfMargin:22,revGrowth:3,ebitdaGrowth:4,rev2yrCagr:4,grossMarginExpBps:40,tier:'discount',premDiscPct:-35,catalyst:'Lenacapavir prevention',implications:"Gilead's discount reflects investor concern about the long-term durability of its HIV franchise (~80% of revenues). Long-acting injectable competition from ViiV Healthcare is gaining traction, and once-daily oral alternatives are proliferating. The oncology build-out (Yescarta, Trodelvy) is real but not yet large enough to re-rate the multiple. The single most important near-term catalyst is lenacapavir's injectable HIV prevention data: PURPOSE 1 and PURPOSE 2 trials showed 100% and 96% efficacy in preventing HIV acquisition — potentially revolutionary results that could open a completely new preventive medicine market."},
+  // Medical Devices
+  {ticker:'ISRG',name:'Intuitive Surgical',vertical:'Medical Devices',marketCapB:175,peNTM:72,evEbitdaNTM:54,evRevNTM:19.0,pfcfNTM:80,grossMargin:68,ebitdaMargin:30,netMargin:24,fcfMargin:26,revGrowth:18,ebitdaGrowth:25,rev2yrCagr:16,grossMarginExpBps:200,tier:'premium',premDiscPct:245,catalyst:'da Vinci 5 + Ion adoption',implications:"Intuitive Surgical commands the highest multiple in medtech because it is the definitional quality compounder: first-mover in robotic-assisted surgery with 25+ year lead time, a razor/blade model (capital + instruments + services), extremely high switching costs, and a global installed base of >9,000 systems in the early innings of procedure penetration. The launch of da Vinci 5 (gen-5 platform with force feedback) and the Ion bronchoscopy system mark the completion of a multi-year capex investment phase — the company is now harvesting margin expansion as the high-margin instruments attach rate increases. Robotic surgery penetration of eligible soft-tissue procedures globally remains below 5%, leaving a massive runway."},
+  {ticker:'EW',name:'Edwards Lifesciences',vertical:'Medical Devices',marketCapB:38,peNTM:31,evEbitdaNTM:23,evRevNTM:9.2,pfcfNTM:34,grossMargin:76,ebitdaMargin:30,netMargin:25,fcfMargin:22,revGrowth:8,ebitdaGrowth:12,rev2yrCagr:10,grossMarginExpBps:150,tier:'premium',premDiscPct:47,catalyst:'TAVR + TMVR expansion',implications:"Edwards trades at a premium reflecting its dominant position in transcatheter aortic valve replacement (TAVR) through the SAPIEN platform, along with a focused strategic pivot: the company exited its Critical Care segment to become a pure-play structural heart company. This clarity of focus, high gross margins (~76%), and the emerging TMVR opportunity — for which the addressable population is estimated at 3-4x the TAVR market — justify the premium. Competition from Medtronic (Evolut) remains but EW's clinical evidence moat and centre relationships are strong. Key watch items: timing of TMVR/TEER label approvals and pace of lower-risk TAVR expansion."},
+  {ticker:'SYK',name:'Stryker',vertical:'Medical Devices',marketCapB:130,peNTM:31,evEbitdaNTM:23,evRevNTM:5.2,pfcfNTM:35,grossMargin:64,ebitdaMargin:25,netMargin:15,fcfMargin:17,revGrowth:10,ebitdaGrowth:13,rev2yrCagr:9,grossMarginExpBps:120,tier:'premium',premDiscPct:47,catalyst:'Mako robotics + M&A track record',implications:"Stryker's premium reflects one of the best M&A integration track records in all of medtech — consistently acquiring, integrating, and growing assets (Sage Products, Wright Medical, Vocera, Cerus Endovascular) while maintaining earnings accretion. The Mako robotic platform for joint replacement continues gaining procedure share, and the spine/neuro segment is benefiting from improved execution. The premium also reflects confidence in management: Stryker has a rare ability to compound growth both organically and inorganically. Margins are inflecting positively following years of integration investments, providing a near-term earnings upgrade story."},
+  {ticker:'BSX',name:'Boston Scientific',vertical:'Medical Devices',marketCapB:118,peNTM:30,evEbitdaNTM:22,evRevNTM:5.3,pfcfNTM:34,grossMargin:60,ebitdaMargin:25,netMargin:13,fcfMargin:14,revGrowth:14,ebitdaGrowth:18,rev2yrCagr:12,grossMarginExpBps:200,tier:'premium',premDiscPct:41,catalyst:'FARAPULSE PFA acceleration',implications:"BSX has earned its premium through exceptional organic growth execution — consistently outperforming medtech peers with double-digit revenue growth across EP, CRM, and urology. The recent launch of FARAPULSE (pulsed field ablation for AF) is a potential franchise-level opportunity: PFA is widely considered the next generation of ablation technology and BSX was first to market with an FDA-approved system. Axonics (pelvic health) and Silk Road Medical (carotid stenting) are recent acquisitions adding faster-growing niche markets. Management completed a multi-year margin improvement programme and is now delivering operating leverage."},
+  {ticker:'MDT',name:'Medtronic',vertical:'Medical Devices',marketCapB:102,peNTM:14,evEbitdaNTM:11,evRevNTM:2.9,pfcfNTM:16,grossMargin:68,ebitdaMargin:27,netMargin:14,fcfMargin:15,revGrowth:5,ebitdaGrowth:7,rev2yrCagr:4,grossMarginExpBps:50,tier:'discount',premDiscPct:-30,catalyst:'Turnaround in progress',implications:"Medtronic trades at the largest discount among large-cap medtech peers, reflecting a multi-year history of execution disappointments: MiniMed 780G CGM/insulin pump CRL, market share losses in spine, and a slow emerging markets recovery. The company is evaluating a potential patient monitoring and respiratory interventions segment spin-off, which could unlock value. New CEO Geoff Martha has been restructuring the portfolio and improving operational discipline. The stock offers a >3% dividend yield at a substantial discount to peers on FCF — value investors see an attractive entry if the turnaround thesis plays out."},
+  {ticker:'ABT',name:'Abbott Laboratories',vertical:'Medical Devices',marketCapB:195,peNTM:23,evEbitdaNTM:17,evRevNTM:4.1,pfcfNTM:26,grossMargin:55,ebitdaMargin:24,netMargin:16,fcfMargin:17,revGrowth:6,ebitdaGrowth:9,rev2yrCagr:5,grossMarginExpBps:80,tier:'fair',premDiscPct:9,catalyst:'FreeStyle Libre global growth',implications:"Abbott trades near fair value, reflecting a well-diversified model across diagnostics, medical devices (vascular, structural heart, neuromodulation), nutrition, and established pharmaceuticals. The standout franchise is FreeStyle Libre (continuous glucose monitoring) — growing >20% annually and taking global market share as GLP-1 drugs drive increased T2D management focus. Post-COVID diagnostic revenue normalisation is largely complete. The EP business (TactiCath, Volt PFA under development) and structural heart (TriClip) add additional growth vectors. AVEIR leadless pacemaker launch is a newer positive catalyst."},
+  // Life Sciences Tools
+  {ticker:'TMO',name:'Thermo Fisher Scientific',vertical:'Life Sciences Tools',marketCapB:208,peNTM:23,evEbitdaNTM:18,evRevNTM:4.7,pfcfNTM:27,grossMargin:42,ebitdaMargin:28,netMargin:18,fcfMargin:20,revGrowth:8,ebitdaGrowth:11,rev2yrCagr:7,grossMarginExpBps:100,tier:'premium',premDiscPct:15,catalyst:'CDMO + bioprocessing recovery',implications:"Thermo Fisher is the undisputed market leader in life sciences tools with unmatched breadth across instruments, reagents, consumables, and bioproduction. The premium reflects the company's ability to compound earnings through economic cycles — TMO has a 20-year track record of EPS growth exceeding 15% CAGR. Post-COVID, the headwind from normalising PCR/COVID revenues (~$9B peak) has largely cleared, and the underlying biopharma customer base is returning to normal ordering patterns. The CDMO business (Patheon) is a key differentiator in an era of outsourced drug manufacturing. Strong FCF generation (~$7B annually) funds both buybacks and strategic acquisitions."},
+  {ticker:'DHR',name:'Danaher',vertical:'Life Sciences Tools',marketCapB:172,peNTM:29,evEbitdaNTM:24,evRevNTM:5.8,pfcfNTM:33,grossMargin:58,ebitdaMargin:31,netMargin:19,fcfMargin:21,revGrowth:5,ebitdaGrowth:8,rev2yrCagr:4,grossMarginExpBps:120,tier:'premium',premDiscPct:54,catalyst:'DBS compounding + bioprocessing',implications:"Danaher commands a structural premium as a 'quality compounder' — the Danaher Business System (DBS) has been the gold standard for lean operating methodology. Following the Veralto (water quality) spin-off, Danaher is focused on biotech tools and diagnostics via Cytiva (bioprocessing) and Cepheid (molecular diagnostics). Cytiva's bioprocessing franchise (single-use bioreactors, chromatography) is critical infrastructure for biologic drug manufacturing. The current valuation compression vs history reflects post-COVID bioprocessing inventory destocking. As pharma and biotech customers work through inventory, order patterns should normalise in 2025–26, providing earnings upside."},
+  {ticker:'ILMN',name:'Illumina',vertical:'Life Sciences Tools',marketCapB:18,peNTM:28,evEbitdaNTM:16,evRevNTM:4.2,pfcfNTM:null,grossMargin:67,ebitdaMargin:18,netMargin:5,fcfMargin:4,revGrowth:2,ebitdaGrowth:15,rev2yrCagr:3,grossMarginExpBps:-50,tier:'discount',premDiscPct:-18,catalyst:'GRAIL divestiture complete',implications:"Illumina's compressed multiple reflects the enormous capital and reputational destruction caused by the GRAIL acquisition attempt — a regulatory nightmare that consumed ~$8B in value and culminated in a forced divestiture. Management credibility was severely damaged, and the market is applying a governance discount. On fundamentals, the core NGS sequencing franchise (NovaSeq X) still has no serious near-term competitor for high-throughput applications. However, PacBio and Oxford Nanopore are eating into specific use cases (long-read) and customer capex cycles are still normalising. Re-rating requires sustained revenue growth recovery, margin expansion, and disciplined capital allocation under new leadership."},
+  {ticker:'A',name:'Agilent Technologies',vertical:'Life Sciences Tools',marketCapB:24,peNTM:17,evEbitdaNTM:13,evRevNTM:3.1,pfcfNTM:19,grossMargin:52,ebitdaMargin:25,netMargin:16,fcfMargin:15,revGrowth:1,ebitdaGrowth:3,rev2yrCagr:1,grossMarginExpBps:20,tier:'discount',premDiscPct:-34,catalyst:'Biopharma spending recovery',implications:"Agilent has de-rated significantly due to the biopharma instrument spending downturn — large pharma and biotech customers over-ordered lab instruments during COVID and are now deferring capital purchases. Agilent's LC/MS and microarrays exposure makes it more cyclically sensitive than peers like TMO or DHR. China exposure (~20% of revenues) at a time of geopolitical uncertainty and domestic competition adds further headwinds. However, the PFAS environmental testing business (new EPA regulations mandating PFAS measurement) represents a genuine growth catalyst, and the instrument replacement cycle will eventually normalise. The stock screens as cheap on through-cycle numbers."},
+  // Managed Care
+  {ticker:'UNH',name:'UnitedHealth Group',vertical:'Managed Care',marketCapB:430,peNTM:17,evEbitdaNTM:12,evRevNTM:0.75,pfcfNTM:20,grossMargin:24,ebitdaMargin:8,netMargin:6,fcfMargin:7,revGrowth:8,ebitdaGrowth:10,rev2yrCagr:8,grossMarginExpBps:30,tier:'premium',premDiscPct:50,catalyst:'Optum vertical integration',implications:"UnitedHealth trades at the largest premium in managed care due to its unique vertical integration model: Optum Health (care delivery), Optum Rx (PBM), and Optum Insight (analytics/technology) generate ~60% of operating income and trade at software/services multiples rather than insurance multiples. UNH has compounded EPS at ~14% over a decade through membership growth, value-based care economics, and cross-selling across the integrated platform. The DOJ antitrust scrutiny (potential break-up) is a known risk partially priced in. On normalised margins, the company continues to show best-in-class underwriting discipline across all business lines."},
+  {ticker:'ELV',name:'Elevance Health',vertical:'Managed Care',marketCapB:88,peNTM:12,evEbitdaNTM:9,evRevNTM:0.42,pfcfNTM:14,grossMargin:18,ebitdaMargin:6,netMargin:4,fcfMargin:5,revGrowth:7,ebitdaGrowth:5,rev2yrCagr:7,grossMarginExpBps:10,tier:'discount',premDiscPct:-25,catalyst:'Medicaid redetermination end',implications:"Elevance has de-rated as Medicaid redetermination (disenrollment post-COVID enrollment freeze) created meaningful near-term MLR pressure — newly retained commercial members replacing Medicaid are initially less profitable. Management guidance has been cautious and the market is uncertain about the pace of normalisation. The commercial and Medicare businesses are solid, and CarelonRx (PBM/pharmacy) is a growing integrated services asset. As redetermination noise clears and membership mix normalises through 2025, Elevance should see consensus estimate revisions higher and multiple expansion toward the group median."},
+  {ticker:'HUM',name:'Humana',vertical:'Managed Care',marketCapB:28,peNTM:14,evEbitdaNTM:10,evRevNTM:0.30,pfcfNTM:16,grossMargin:16,ebitdaMargin:4,netMargin:2,fcfMargin:3,revGrowth:10,ebitdaGrowth:-15,rev2yrCagr:9,grossMarginExpBps:-80,tier:'discount',premDiscPct:-38,catalyst:'MA Star ratings recovery',implications:"Humana's deep discount reflects a genuine fundamental problem: Medicare Advantage (MA) Star ratings fell (losing 4-star quality bonus payments), simultaneous with higher-than-expected medical utilisation from members deferring elective procedures post-COVID. The combination caused sharp earnings misses and guidance cuts. Management is addressing root causes — reducing network access friction, improving chronic care coordination, and tightening 2025 benefits design. However, recovery in Star ratings takes 2–3 years to flow through the P&L due to the CMS payment lag. Until investors see credible evidence of MLR improvement, the stock will remain under pressure."},
+  {ticker:'CVS',name:'CVS Health',vertical:'Managed Care',marketCapB:72,peNTM:9,evEbitdaNTM:7,evRevNTM:0.32,pfcfNTM:10,grossMargin:20,ebitdaMargin:5,netMargin:2,fcfMargin:4,revGrowth:4,ebitdaGrowth:-3,rev2yrCagr:5,grossMarginExpBps:-30,tier:'discount',premDiscPct:-56,catalyst:'Integration clarity needed',implications:"CVS trades at the deepest discount in managed care because the market is sceptical about the strategic logic of integrating Aetna (insurance) + Signify (home health) + Oak Street Health (primary care) + the retail pharmacy business simultaneously. Balance sheet leverage is elevated following these acquisitions, and the retail pharmacy business faces structural pressures (reimbursement cuts, foot traffic shifts). Management has not provided a sufficiently clear path to synergy realisation. Activists and value investors argue the sum-of-parts exceeds the current valuation — a strategic break-up or focused capital return could be a re-rating catalyst."},
+  // CRO / Services
+  {ticker:'IQV',name:'IQVIA Holdings',vertical:'CRO / Services',marketCapB:35,peNTM:21,evEbitdaNTM:15,evRevNTM:2.9,pfcfNTM:23,grossMargin:38,ebitdaMargin:22,netMargin:10,fcfMargin:11,revGrowth:8,ebitdaGrowth:10,rev2yrCagr:8,grossMarginExpBps:80,tier:'premium',premDiscPct:36,catalyst:'Data analytics differentiation',implications:"IQVIA commands the highest premium in CRO services because it is not purely a CRO — its unique OCE (orchestrated customer engagement), real-world evidence, and technology platform create data network effects that traditional CROs cannot replicate. Pharma and biotech customers increasingly rely on IQVIA's anonymised patient data assets for trial design, patient recruitment, and post-market surveillance. This data moat justifies a higher multiple than peers. The backlog ($30B+) and book-to-bill ratio provide strong earnings visibility. As biotech funding stabilises from its 2022–2023 trough, IQVIA should see net new business growth accelerate. AI-augmented trial design tools are a potential upside catalyst."},
+  {ticker:'CRL',name:'Charles River Laboratories',vertical:'CRO / Services',marketCapB:8,peNTM:15,evEbitdaNTM:11,evRevNTM:2.1,pfcfNTM:16,grossMargin:45,ebitdaMargin:22,netMargin:10,fcfMargin:10,revGrowth:1,ebitdaGrowth:3,rev2yrCagr:2,grossMarginExpBps:30,tier:'discount',premDiscPct:-29,catalyst:'Biotech funding normalisation',implications:"Charles River is the most biotech-funding-sensitive name in the CRO space because its preclinical research services (drug discovery, safety assessment, early-phase testing) are the first to be cut when small biotech companies lose access to capital. The 2022–2023 biotech funding collapse hit CRL's Discovery and Safety Assessment segment directly. Revenue growth has stalled and management has been cautious on guidance. The stock would recover meaningfully once the biotech funding cycle turns: higher-quality biotechs restarting programmes, new VC fund deployment, and a re-opening of the IPO market would all flow through to CRL's order book within 2–3 quarters. CRISPR and cell/gene therapy outsourcing represents a structural growth tailwind."},
+];
+
+// sector medians
+function median(arr){if(!arr.length)return 0;const s=[...arr].sort((a,b)=>a-b);const m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2;}
+function sectorMedians(vertical){
+  const g=DATA.filter(c=>c.vertical===vertical);
+  return{
+    evEbitdaNTM:median(g.map(c=>c.evEbitdaNTM)),
+    ebitdaMargin:median(g.map(c=>c.ebitdaMargin)),
+  };
+}
+const MEDIANS={};
+VERTICALS.forEach(v=>{MEDIANS[v]=sectorMedians(v);});
+
+// ── TABLE STATE ───────────────────────────────────────────────────────────
+let activeVertical='All';
+let expandedTicker=null;
+let sortCol='marketCapB';
+let sortDir='desc';
+
+function setSort(col){
+  if(sortCol===col)sortDir=sortDir==='asc'?'desc':'asc';
+  else{sortCol=col;sortDir='desc';}
+  renderTable();
+}
+
+function renderTabs(){
+  const container=document.getElementById('tabs');
+  const all=['All',...VERTICALS];
+  container.innerHTML=all.map(v=>`<button class="tab${activeVertical===v?' active':''}" onclick="setVertical('${v}')">${v}</button>`).join('');
+}
+
+function setVertical(v){activeVertical=v;expandedTicker=null;renderTable();}
+
+function filtered(){
+  let list=DATA.filter(c=>activeVertical==='All'||c.vertical===activeVertical);
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  if(q)list=list.filter(c=>c.ticker.toLowerCase().includes(q)||c.name.toLowerCase().includes(q));
+  list=[...list].sort((a,b)=>{
+    let av=a[sortCol]??-Infinity,bv=b[sortCol]??-Infinity;
+    return sortDir==='asc'?(av>bv?1:-1):(av<bv?1:-1);
+  });
+  return list;
+}
+
+function fmt(v,d=1){return v==null?'—':`${(+v).toFixed(d)}x`;}
+function fmtPct(v){return(v>0?'+':'')+v.toFixed(1)+'%';}
+function fmtBps(v){return(v>=0?'+':'')+v+'bps';}
+function fmtBn(v){return v>=1000?`$${(v/1000).toFixed(1)}T`:`$${v.toFixed(0)}B`;}
+
+function growthColor(v){return v>10?'#10b981':v>0?'#6ee7b7':v>-5?'#fbbf24':'#ef4444';}
+
+function badgeHtml(tier,pct){
+  const cls=tier==='premium'?'badge-premium':tier==='discount'?'badge-discount':'badge-fair';
+  const icon=tier==='premium'?'▲':tier==='discount'?'▼':'●';
+  const label=tier==='premium'?'Premium':tier==='discount'?'Discount':'Fair Value';
+  return `<span class="badge ${cls}">${icon} ${label} <span style="opacity:.7">(${pct>0?'+':''}${pct}%)</span></span>`;
+}
+
+function renderTable(){
+  // update tabs active state
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active',t.textContent===activeVertical);
+  });
+  // update sort icons
+  document.querySelectorAll('.sort-icon').forEach(el=>{
+    const col=el.dataset.col;
+    el.textContent=col===sortCol?(sortDir==='asc'?'↑':'↓'):'↕';
+    el.closest('th').classList.toggle('sorted',col===sortCol);
+  });
+
+  const list=filtered();
+  // summary stats
+  document.getElementById('stat-count').textContent=list.length;
+  document.getElementById('stat-count-sub').textContent=`of ${DATA.length} total`;
+  document.getElementById('stat-premium').textContent=list.filter(c=>c.tier==='premium').length;
+  document.getElementById('stat-discount').textContent=list.filter(c=>c.tier==='discount').length;
+  const avgRev=(list.reduce((s,c)=>s+c.revGrowth,0)/list.length);
+  const avgEbitda=(list.reduce((s,c)=>s+c.ebitdaMargin,0)/list.length);
+  document.getElementById('stat-growth').textContent=list.length?`+${avgRev.toFixed(1)}%`:'—';
+  document.getElementById('stat-margin-sub').textContent=`Avg EBITDA margin: ${list.length?avgEbitda.toFixed(1):'—'}%`;
+
+  const tbody=document.getElementById('table-body');
+  let html='';
+  list.forEach(c=>{
+    const med=MEDIANS[c.vertical];
+    const isOpen=expandedTicker===c.ticker;
+    const evColor=c.evEbitdaNTM>med.evEbitdaNTM*1.15?'#10b981':c.evEbitdaNTM<med.evEbitdaNTM*0.85?'#ef4444':'var(--text)';
+    const ebitdaColor=c.ebitdaMargin>med.ebitdaMargin+5?'#10b981':c.ebitdaMargin>med.ebitdaMargin?'#86efac':c.ebitdaMargin>med.ebitdaMargin-5?'#fbbf24':'#ef4444';
+    const pdc=c.premDiscPct;
+    const pdColor=pdc>0?'#10b981':pdc<-10?'#ef4444':'#eab308';
+
+    // Data row
+    html+=`<tr class="data-row${isOpen?' open':''}" onclick="toggleRow('${c.ticker}')">
+      <td><span class="mono" style="font-weight:600;color:#fff">${c.ticker}</span></td>
+      <td><span style="font-weight:500;color:#fff">${c.name}</span></td>
+      <td><span class="badge badge-vert">${c.vertical}</span></td>
+      <td class="mono">${fmtBn(c.marketCapB)}</td>
+      <td class="sep-col"></td>
+      <td class="mono">${fmt(c.peNTM)}</td>
+      <td><span class="mono" style="color:${evColor}">${fmt(c.evEbitdaNTM)}</span></td>
+      <td class="mono">${fmt(c.evRevNTM)}</td>
+      <td class="mono">${fmt(c.pfcfNTM)}</td>
+      <td class="sep-col"></td>
+      <td class="mono">${c.grossMargin.toFixed(1)}%</td>
+      <td><span class="mono" style="color:${ebitdaColor}">${c.ebitdaMargin.toFixed(1)}%</span></td>
+      <td class="mono">${c.netMargin.toFixed(1)}%</td>
+      <td class="mono">${c.fcfMargin.toFixed(1)}%</td>
+      <td class="sep-col"></td>
+      <td><span class="mono" style="color:${growthColor(c.revGrowth)}">${fmtPct(c.revGrowth)}</span></td>
+      <td><span class="mono" style="color:${growthColor(c.ebitdaGrowth)}">${fmtPct(c.ebitdaGrowth)}</span></td>
+      <td><span class="mono" style="color:${growthColor(c.rev2yrCagr)}">${fmtPct(c.rev2yrCagr)}</span></td>
+      <td><span class="mono" style="color:${c.grossMarginExpBps>=0?'#10b981':'#ef4444'}">${fmtBps(c.grossMarginExpBps)}</span></td>
+      <td class="sep-col"></td>
+      <td><span class="mono" style="color:${pdColor}">${pdc>0?'+':''}${pdc}%</span></td>
+      <td>${badgeHtml(c.tier,c.premDiscPct)}</td>
+      <td><span class="badge badge-blue">${c.catalyst}</span></td>
+    </tr>`;
+
+    // Implications row
+    if(isOpen){
+      html+=`<tr class="impl-row">
+        <td colspan="23">
+          <div class="impl-inner">
+            <div class="impl-left">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <span class="mono" style="font-size:1.25rem;font-weight:700;color:#fff">${c.ticker}</span>
+                ${badgeHtml(c.tier,c.premDiscPct)}
+              </div>
+              <div style="font-size:.875rem;font-weight:500;color:#fff">${c.name}</div>
+              <div style="font-size:.75rem;color:var(--muted);margin-top:2px">${c.vertical}</div>
+              <div class="impl-meta">
+                <div class="impl-meta-item"><div class="lbl">EV/EBITDA</div><div class="val mono">${fmt(c.evEbitdaNTM)}</div></div>
+                <div class="impl-meta-item"><div class="lbl">Sector med.</div><div class="val mono">${med.evEbitdaNTM.toFixed(1)}x</div></div>
+                <div class="impl-meta-item"><div class="lbl">Rev Growth</div><div class="val mono" style="color:${growthColor(c.revGrowth)}">${fmtPct(c.revGrowth)}</div></div>
+                <div class="impl-meta-item"><div class="lbl">EBITDA Margin</div><div class="val mono">${c.ebitdaMargin}%</div></div>
+              </div>
+            </div>
+            <div class="impl-divider"></div>
+            <div class="impl-right">
+              <div class="impl-title">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                <h3>Valuation Implications</h3>
+              </div>
+              <p class="impl-text">${c.implications}</p>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+    }
+  });
+
+  if(!list.length)html=`<tr><td colspan="23" style="text-align:center;padding:48px;color:var(--muted)">No companies match your filter.</td></tr>`;
+  tbody.innerHTML=html;
+}
+
+function toggleRow(ticker){
+  expandedTicker=expandedTicker===ticker?null:ticker;
+  renderTable();
+}
+</script>
+</body>
+</html>

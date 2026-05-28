@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0f1117;
+  --card: #161b27;
+  --raised: #1e2538;
+  --border: #2a3347;
+  --text: #e2e8f0;
+  --muted: #8892a4;
+  --accent: #3b82f6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--card); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3a4558; }
+
+/* Table overrides */
+.hc-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #0d1020;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 12px;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+
+.hc-table th:hover { color: var(--text); }
+.hc-table th.sorted { color: var(--accent); }
+
+.hc-table td {
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #1a2030;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.hc-table tr:hover td { background: rgba(59, 130, 246, 0.04); }
+.hc-table tr.expanded td { background: rgba(59, 130, 246, 0.06); }
+
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Badge colours */
+.badge-premium { background: rgba(16,185,129,0.15); color: #10b981; }
+.badge-fair    { background: rgba(234,179,8,0.15);  color: #eab308; }
+.badge-discount{ background: rgba(239,68,68,0.15);  color: #ef4444; }
+
+/* Implication expand row */
+.impl-row td {
+  background: #0d1422 !important;
+  border-bottom: 2px solid var(--accent) !important;
+}

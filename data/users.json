@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "email": "marko.boesch@gmx.ch",
+    "name": "Marko",
+    "passwordHash": "$2a$10$sbA2xNNIamh54rdMw7qJQOdR6t06vCOLPQ7RSuxmdfiVHo47L9clK",
+    "createdAt": "2026-05-28T09:47:53.641Z"
+  },
+  {
+    "id": "2",
+    "email": "t.k.wigand@gmail.com",
+    "name": "Tobi",
+    "passwordHash": "$2a$10$YKgZwiH4ZjaVRRfP5WFNs.vtNMNZfEyzdO7mNkV24Spr/zipCVJgu",
+    "createdAt": "2026-05-28T09:47:53.723Z"
+  }
+]
